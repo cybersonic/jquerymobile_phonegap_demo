@@ -19,8 +19,9 @@
 
 		<ul data-role="listview">
 			<cfloop array="#News.item#" index="item">
+				<cfset newsid = ListLast(item.guid.value, "/")>
 				<cfoutput>
-					<li><a href="##item">#item.title#</a></li>
+					<li><a href="###newsid#">#item.title#</a></li>
 				</cfoutput>
 			</cfloop>
 		</ul>
@@ -28,12 +29,22 @@
 		</div>	
 	</div>
 	
-	<div data-role="page" id="item" data-add-back-btn="true">
-	   <div data-role="header">
-	      <h1>A News Item</h1>
-	    </div>
-	   <div data-role="content">
-		</div>	
-	</div>
+	<cfloop array="#News.item#" index="item">
+		<cfset newsid = ListLast(item.guid.value, "/")>
+		<cfoutput>
+			<div data-role="page" id="#newsid#" data-add-back-btn="true">
+	   			<div data-role="header"><h1>#item.title#</h1></div>
+	   			<div data-role="content">
+					<div>
+					<cfif ArrayLen(item.thumbnail)>
+						<img src="#item.thumbnail[2].url#">
+					</cfif>
+					</div>
+	      			#item.description.value#
+					<a href="#item.link#" data-role="button">Read More</a>
+	   			</div>
+			</div>
+		</cfoutput>
+	</cfloop>
   </body>
 </html>
