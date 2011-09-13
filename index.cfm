@@ -18,17 +18,16 @@
 	   <div data-role="content">
 
 		<ul data-role="listview">
-			<cfdump var="#News#">
-			
-			<!---
-			<li><a href="#item">Item</a></li>
-			<li><a href="#item">Item</a></li>
-			<li><a href="#item">Item</a></li>
-			--->
+			<cfloop array="#News.item#" index="item">
+				<cfoutput>
+					<li><a href="##item">#item.title#</a></li>
+				</cfoutput>
+			</cfloop>
 		</ul>
 
 		</div>	
 	</div>
+	
 	<div data-role="page" id="item" data-add-back-btn="true">
 	   <div data-role="header">
 	      <h1>A News Item</h1>
