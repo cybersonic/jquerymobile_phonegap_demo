@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+	<!-- iPad/iPhone specific css below, add after your main css >
+	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
+	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
+	-->
+	<!-- If you application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
+	<script type="text/javascript" charset="utf-8" src="phonegap.0.9.6.min.js"></script>
+	<script src="jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="jquery.mobile-1.0b3.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<script src="jquery.mobile-1.0b3.min.js" type="text/javascript" charset="utf-8"></script>
+
+	
+    <script type="text/javascript" charset="utf-8">
+	//var rssFeed = "http://feeds.bbci.co.uk/news/rss.xml";
+	//var rssFeed = "rss.xml";
+
+	// If you want to prevent dragging, uncomment this section
+	/*
+	function preventBehavior(e) 
+	{ 
+      e.preventDefault(); 
+    };
+	document.addEventListener("touchmove", preventBehavior, false);
+	*/
+	
+	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
+	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+	for more details -jm */
+	/*
+	function handleOpenURL(url)
+	{
+		// TODO: do something with the url passed in.
+	}
+	*/
+	
+	function onBodyLoad()
+	{		
+		document.addEventListener("deviceready",onDeviceReady,false);
+	}
+	
+
+	function onDeviceReady()
+	{
+		
+		
+	
+	}
+	
+	function getItemFromCamera(){
+		navigator.camera.getPicture(
+				
+				function(imageData){
+					navigator.notification.alert("Got a photo from the camera!");
+				}, 
+				function(error){
+					navigator.notification.alert(error);
+				});
+	}
+
+	        
+    function getLocation(){
+        navigator.geolocation.getCurrentPosition(
+				function(position){
+               alert('Latitude: '          + position.coords.latitude          + '\n' +
+                     'Longitude: '         + position.coords.longitude         + '\n' +
+                     'Altitude: '          + position.coords.altitude          + '\n' +
+                     'Accuracy: '          + position.coords.accuracy          + '\n' +
+                     'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+                     'Heading: '           + position.coords.heading           + '\n' +
+                     'Speed: '             + position.coords.speed             + '\n' +
+                     'Timestamp: '         + new Date(position.timestamp)      + '\n')
+               
+               },
+               function(error){navigator.notification.alert(error)}
+               ); 
+            
+            
+     }
+        
+        function getConnection(){
+            var networkState = navigator.network.connection.type;
+            
+            var states = {};
+            states[Connection.UNKNOWN]  = 'Unknown connection';
+            states[Connection.ETHERNET] = 'Ethernet connection';
+            states[Connection.WIFI]     = 'WiFi connection';
+            states[Connection.CELL_2G]  = 'Cell 2G connection';
+            states[Connection.CELL_3G]  = 'Cell 3G connection';
+            states[Connection.CELL_4G]  = 'Cell 4G connection';
+            states[Connection.NONE]     = 'No network connection';
+            
+            alert('Connection type: ' + states[networkState]);
+            
+        }
+
+        
+        function getDeviceInfo(){
+            alert('Device Name: '     + device.name     + '\n' + 
+                  'Device PhoneGap: ' + device.phonegap + '\n' +
+                  'Device Platform: ' + device.platform + '\n' + 
+                  'Device UUID: '     + device.uuid     + '\n' + 
+                  'Device Version: '  + device.version  + '\n');
+            
+        }
+
+		function getNews(){
+			$.ajax({
+				url : "http://feeds.bbci.co.uk/news/rss.xml",
+				dataType: "xml",
+				success: displayNewsItems,
+				error: function(error){alert(error)}
+			});
+			
+			
+		}
+		
+		function displayNewsItems(data){
+			
+			$('item',data).each(function(){
+
+				var imgURL = "";
+				var strLi = "<li class='rssLink'>";
+					strLi += "<a href='" + $("link", this).text() + "' rel='external' >";
+					strLi += $("title", this).text();
+					strLi += "</a>";
+					strLi += "</li>";
+
+				$("#newslist").append(strLi);
+
+		 	});
+			$('#newslist').listview("refresh");
+			
+		}
+    </script>
+  </head>
+  <body onload="onBodyLoad()" id="body">
+  		<div data-role="page" id="home">
+		   <div data-role="header">
+		      <h1>Examples</h1>
+		    </div>
+		   <div data-role="content">
+
+			<ul data-role="listview">
+				<li><a href="#camera">Camera</a></li>
+                <li><a href="#location">Location</a></li>
+                <li><a href="#connection">Connection</a></li>
+                <li><a href="#device">Device</a></li>
+                <li><a href="#remote">Remote</a></li>
+
+			</ul>
+
+			</div>	
+		</div>
+		
+		<!-- Camera -->
+		<div data-role="page" id="camera" data-add-back-btn="true">
+		   <div data-role="header">
+		      <h1>Camera</h1>
+		    </div>
+		   <div data-role="content">
+				<button onClick="getItemFromCamera()">Get the Camera</button>
+		
+
+			</div>	
+		</div>
+		
+      
+      <!-- Location -->
+      <div data-role="page" id="location" data-add-back-btn="true">
+          <div data-role="header">
+		      <h1>Location</h1>
+          </div>
+          <div data-role="content">
+              <button onClick="getLocation()">Get Current Location</button>
+              <div id="locationInfo"></div>
+          </div>	
+      </div>
+      
+      <!-- Connection -->
+      <div data-role="page" id="connection" data-add-back-btn="true">
+          <div data-role="header">
+		      <h1>Connection</h1>
+          </div>
+          <div data-role="content">
+              <button onClick="getConnection()">Get Current Connection Type</button>
+              
+          </div>	
+      </div>
+      
+      <!-- Device -->
+      <div data-role="page" id="device" data-add-back-btn="true">
+          <div data-role="header">
+		      <h1>Device</h1>
+          </div>
+          <div data-role="content">
+              <button onClick="getDeviceInfo()">Get Device Info</button>
+              
+          </div>	
+      </div>
+	<!-- Remote -->
+      <div data-role="page" id="remote" data-add-back-btn="true">
+          <div data-role="header">
+		      <h1>Remote</h1>
+			<a class="ui-btn-right" onClick="getNews()" data-icon="check">Get BBC News</a>
+          </div>
+          <div data-role="content">
+			  <ul data-role="listview" id="newslist"></ul>
+          </div>	
+      </div>
+  </body>
+</html>
