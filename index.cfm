@@ -22,7 +22,7 @@
 
 		</div>	
 	</div>
-	<div data-role="page" id="item">
+	<div data-role="page" id="item" data-add-back-btn="true">
 	   <div data-role="header">
 	      <h1>A News Item</h1>
 	    </div>
