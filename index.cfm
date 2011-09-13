@@ -7,5 +7,14 @@
 	<script src="jquery.mobile-1.0b3.min.js" type="text/javascript" charset="utf-8"></script>
   </head>
   <body>
+	
+	<div data-role="page" id="home">
+	   <div data-role="header">
+	      <h1>BBC News Reader</h1>
+	    </div>
+	   <div data-role="content">
+		</div>	
+	</div>
+	
   </body>
 </html>
