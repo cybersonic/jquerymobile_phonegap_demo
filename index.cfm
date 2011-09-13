@@ -13,8 +13,21 @@
 	      <h1>BBC News Reader</h1>
 	    </div>
 	   <div data-role="content">
+
+		<ul data-role="listview">
+			<li><a href="#item">Item</a></li>
+			<li><a href="#item">Item</a></li>
+			<li><a href="#item">Item</a></li>
+		</ul>
+
 		</div>	
 	</div>
-	
+	<div data-role="page" id="item">
+	   <div data-role="header">
+	      <h1>A News Item</h1>
+	    </div>
+	   <div data-role="content">
+		</div>	
+	</div>
   </body>
 </html>
